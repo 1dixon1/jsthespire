@@ -1,3 +1,5 @@
+import { STARTER_DECK, getCard } from './data/Cards.js';
+
 export class GameState {
     constructor() {
         this.reset();
@@ -13,17 +15,24 @@ export class GameState {
             floor: 1
         };
 
-        this.deck = [
-            { id: 'strike', name: 'Strike', type: 'attack', cost: 1, damage: 6, rarity: 'common' },
-            { id: 'strike', name: 'Strike', type: 'attack', cost: 1, damage: 6, rarity: 'common' },
-            { id: 'strike', name: 'Strike', type: 'attack', cost: 1, damage: 6, rarity: 'common' },
-            { id: 'strike', name: 'Strike', type: 'attack', cost: 1, damage: 6, rarity: 'common' },
-            { id: 'strike', name: 'Strike', type: 'attack', cost: 1, damage: 6, rarity: 'common' },
-            { id: 'defend', name: 'Defend', type: 'skill', cost: 1, block: 5, rarity: 'common' },
-            { id: 'defend', name: 'Defend', type: 'skill', cost: 1, block: 5, rarity: 'common' },
-            { id: 'defend', name: 'Defend', type: 'skill', cost: 1, block: 5, rarity: 'common' },
-            { id: 'defend', name: 'Defend', type: 'skill', cost: 1, block: 5, rarity: 'common' }
-        ];
+        // Create starting deck from card database
+        this.deck = STARTER_DECK.map(cardId => {
+            const cardData = getCard(cardId);
+            return {
+                id: cardData.id,
+                name: cardData.name,
+                type: cardData.type,
+                cost: cardData.cost,
+                damage: cardData.damage,
+                block: cardData.block,
+                rarity: cardData.rarity,
+                description: cardData.description,
+                aoe: cardData.aoe,
+                exhaust: cardData.exhaust,
+                strength: cardData.strength,
+                draw: cardData.draw
+            };
+        });
 
         this.hand = [];
         this.discardPile = [];
@@ -193,8 +202,27 @@ export class GameState {
         this.player.currentHealth = Math.min(this.player.maxHealth, this.player.currentHealth + amount);
     }
 
-    addCard(card) {
-        this.deck.push(card);
+    addCard(cardId) {
+        const cardData = getCard(cardId);
+        if (cardData) {
+            const card = {
+                id: cardData.id,
+                name: cardData.name,
+                type: cardData.type,
+                cost: cardData.cost,
+                damage: cardData.damage,
+                block: cardData.block,
+                rarity: cardData.rarity,
+                description: cardData.description,
+                aoe: cardData.aoe,
+                exhaust: cardData.exhaust,
+                strength: cardData.strength,
+                draw: cardData.draw
+            };
+            this.deck.push(card);
+            return true;
+        }
+        return false;
     }
 
     removeCard(cardIndex) {

@@ -617,7 +617,8 @@ export class CombatScene {
         
         setTimeout(() => {
             this.gameState.endCombat();
-            this.game.switchScene('map');
+            // Show reward scene instead of going directly to map
+            this.game.switchScene('reward');
         }, 3000);
     }
 
