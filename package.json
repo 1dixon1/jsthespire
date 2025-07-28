@@ -1,0 +1,21 @@
+{
+  "name": "jsthespire",
+  "version": "1.0.0",
+  "description": "A Slay the Spire-like card game built with Pixi.js",
+  "main": "index.html",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "pixi.js": "^7.3.2",
+    "gsap": "^3.12.2"
+  },
+  "devDependencies": {
+    "vite": "^5.0.0"
+  },
+  "keywords": ["game", "pixi.js", "slay-the-spire", "card-game", "roguelike"],
+  "author": "Your Name",
+  "license": "MIT"
+} 
