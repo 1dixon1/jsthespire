@@ -39,6 +39,12 @@ export class MapScene {
         this.createMap();
         this.createUI();
         this.setupScrolling();
+        
+        // Ensure player position is updated when returning to map
+        if (this.currentNode !== null && this.playerPosition) {
+            this.updatePlayerPosition();
+            this.highlightAvailablePaths();
+        }
     }
 
     setupScrolling() {
@@ -414,6 +420,13 @@ export class MapScene {
 
     selectNode(index) {
         console.log(`selectNode called with index: ${index}`);
+        
+        // Check if player is dead
+        if (this.gameState.isGameOver()) {
+            console.log('Cannot move: player is dead');
+            return;
+        }
+        
         const node = this.nodes[index];
         
         if (!node) {
@@ -439,6 +452,11 @@ export class MapScene {
         // Move to node
         this.currentNode = index;
         node.visited = true;
+        
+        // Update player progress in GameState
+        this.gameState.player.floor = Math.floor(index / 3) + 1;
+        console.log(`Player moved to floor ${this.gameState.player.floor}`);
+        
         this.updatePlayerPosition();
         this.highlightAvailablePaths();
 
@@ -509,8 +527,13 @@ export class MapScene {
                 console.log('Starting the journey!');
                 break;
             case 'combat':
+                console.log('Starting combat encounter');
+                this.gameState.currentNodeType = 'combat';
+                this.game.switchScene('combat');
+                break;
             case 'elite':
-                console.log(`Starting ${type} encounter`);
+                console.log('Starting elite encounter');
+                this.gameState.currentNodeType = 'elite';
                 this.game.switchScene('combat');
                 break;
             case 'shop':
@@ -523,6 +546,7 @@ export class MapScene {
                 break;
             case 'boss':
                 console.log('Facing the boss!');
+                this.gameState.currentNodeType = 'boss';
                 this.game.switchScene('combat');
                 break;
         }
@@ -694,8 +718,10 @@ export class MapScene {
     }
 
     createPlayerIndicator() {
+        console.log('Creating player indicator...');
         this.playerPosition = new PIXI.Container();
         this.mapContainer.addChild(this.playerPosition);
+        console.log('Player indicator created and added to mapContainer');
         
         // Player glow effect
         this.playerGlow = new PIXI.Graphics();
@@ -739,11 +765,19 @@ export class MapScene {
     }
 
     updatePlayerPosition() {
+        console.log(`updatePlayerPosition called: currentNode=${this.currentNode}, playerPosition=${this.playerPosition}`);
+        
         if (this.currentNode !== null && this.nodes[this.currentNode]) {
             const currentNode = this.nodes[this.currentNode];
             console.log(`Updating player position to node ${this.currentNode} at (${currentNode.x}, ${currentNode.y})`);
-            this.playerPosition.x = currentNode.x;
-            this.playerPosition.y = currentNode.y;
+            
+            if (this.playerPosition) {
+                this.playerPosition.x = currentNode.x;
+                this.playerPosition.y = currentNode.y;
+                console.log(`Player position updated to (${this.playerPosition.x}, ${this.playerPosition.y})`);
+            } else {
+                console.log('Player position container is null!');
+            }
         } else {
             console.log(`Cannot update player position: currentNode=${this.currentNode}, nodes[${this.currentNode}]=${this.nodes[this.currentNode]}`);
         }

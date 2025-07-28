@@ -30,7 +30,11 @@ export class GameState {
                 aoe: cardData.aoe,
                 exhaust: cardData.exhaust,
                 strength: cardData.strength,
-                draw: cardData.draw
+                draw: cardData.draw,
+                weak: cardData.weak,
+                vulnerable: cardData.vulnerable,
+                thorns: cardData.thorns,
+                energy: cardData.energy
             };
         });
 
@@ -42,6 +46,8 @@ export class GameState {
         this.isInCombat = false;
         this.currentTurn = 0;
         this.block = 0;
+        this.currentNodeType = null;
+        this.gameOver = false;
 
         this.relics = [];
         this.potions = [];
@@ -63,6 +69,15 @@ export class GameState {
         this.drawPile = [...this.deck];
         this.currentEnemies = [];
         this.block = 0;
+        
+        // Update player progress
+        this.updatePlayerProgress();
+    }
+    
+    updatePlayerProgress() {
+        // Update floor based on current node
+        // This will be called from MapScene when needed
+        console.log('Updating player progress');
     }
 
     shuffleDeck() {
@@ -188,7 +203,10 @@ export class GameState {
         // Apply remaining damage
         this.player.currentHealth = Math.max(0, this.player.currentHealth - actualDamage);
         
+        console.log(`Player took ${actualDamage} damage. Health: ${this.player.currentHealth}/${this.player.maxHealth}`);
+        
         if (this.player.currentHealth <= 0) {
+            console.log('Player has died!');
             this.gameOver = true;
         }
         
@@ -203,7 +221,10 @@ export class GameState {
     }
 
     addCard(cardId) {
+        console.log(`GameState.addCard called with cardId: ${cardId}`);
         const cardData = getCard(cardId);
+        console.log('Card data found:', cardData);
+        
         if (cardData) {
             const card = {
                 id: cardData.id,
@@ -217,11 +238,17 @@ export class GameState {
                 aoe: cardData.aoe,
                 exhaust: cardData.exhaust,
                 strength: cardData.strength,
-                draw: cardData.draw
+                draw: cardData.draw,
+                weak: cardData.weak,
+                vulnerable: cardData.vulnerable,
+                thorns: cardData.thorns,
+                energy: cardData.energy
             };
             this.deck.push(card);
+            console.log(`Card ${card.name} added to deck. Deck size: ${this.deck.length}`);
             return true;
         }
+        console.log('Card data not found for ID:', cardId);
         return false;
     }
 
@@ -232,7 +259,7 @@ export class GameState {
     }
 
     isGameOver() {
-        return this.player.currentHealth <= 0;
+        return this.gameOver || this.player.currentHealth <= 0;
     }
 
     isVictory() {

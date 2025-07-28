@@ -71,17 +71,53 @@ export class Card {
         this.container.addChild(typeText);
 
         // Card description
-        let description = '';
-        if (this.data.damage) {
-            description += `Deal ${this.data.damage} damage`;
-        }
-        if (this.data.block) {
-            if (description) description += '\n';
-            description += `Gain ${this.data.block} block`;
-        }
-        if (this.data.heal) {
-            if (description) description += '\n';
-            description += `Heal ${this.data.heal} HP`;
+        let description = this.data.description || '';
+        
+        // If no description provided, generate one from card data
+        if (!description) {
+            if (this.data.damage) {
+                description += `Deal ${this.data.damage} damage`;
+            }
+            if (this.data.block) {
+                if (description) description += '\n';
+                description += `Gain ${this.data.block} block`;
+            }
+            if (this.data.strength) {
+                if (description) description += '\n';
+                if (this.data.strength > 0) {
+                    description += `Gain ${this.data.strength} strength`;
+                } else {
+                    description += `Enemy loses ${Math.abs(this.data.strength)} strength`;
+                }
+            }
+            if (this.data.draw) {
+                if (description) description += '\n';
+                description += `Draw ${this.data.draw} cards`;
+            }
+            if (this.data.energy) {
+                if (description) description += '\n';
+                description += `Gain ${this.data.energy} energy`;
+            }
+            if (this.data.weak) {
+                if (description) description += '\n';
+                description += `Apply ${this.data.weak} Weak`;
+            }
+            if (this.data.vulnerable) {
+                if (description) description += '\n';
+                description += `Apply ${this.data.vulnerable} Vulnerable`;
+            }
+            if (this.data.thorns) {
+                if (description) description += '\n';
+                description += `Deal ${this.data.thorns} damage back`;
+            }
+            if (this.data.aoe) {
+                if (description) description += '\n';
+                description += 'To all enemies';
+            }
+            if (this.data.exhaust) {
+                if (description) description += '\n';
+                description += 'Exhaust';
+            }
         }
 
         if (description) {

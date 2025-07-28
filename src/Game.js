@@ -3,6 +3,7 @@ import { MainMenuScene } from './scenes/MainMenuScene.js';
 import { CombatScene } from './scenes/CombatScene.js';
 import { MapScene } from './scenes/MapScene.js';
 import { RewardScene } from './scenes/RewardScene.js';
+import { StarterCardSelectionScene } from './scenes/StarterCardSelectionScene.js';
 import { GameState } from './GameState.js';
 
 export class Game {
@@ -13,6 +14,7 @@ export class Game {
         
         this.scenes = {
             mainMenu: new MainMenuScene(this),
+            starterSelection: new StarterCardSelectionScene(this),
             combat: new CombatScene(this),
             map: new MapScene(this),
             reward: new RewardScene(this)
@@ -59,7 +61,7 @@ export class Game {
 
     startNewGame() {
         this.gameState.reset();
-        this.switchScene('map');
+        this.switchScene('starterSelection');
     }
 
     continueGame() {

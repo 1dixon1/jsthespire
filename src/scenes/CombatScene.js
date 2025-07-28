@@ -298,22 +298,64 @@ export class CombatScene {
     }
 
     startCombat() {
-        // Create enemies
-        const enemyFactory = new EnemyFactory();
-        const enemyTypes = ['goblin', 'slime', 'skeleton'];
-        const numEnemies = Math.floor(Math.random() * 3) + 1;
+        console.log('CombatScene.startCombat called');
+        console.log('Deck size at start of combat:', this.gameState.deck.length);
+        console.log('Deck contents:', this.gameState.deck.map(card => card.name));
         
-        for (let i = 0; i < numEnemies; i++) {
-            const enemyType = enemyTypes[Math.floor(Math.random() * enemyTypes.length)];
-            const enemy = enemyFactory.createEnemy(enemyType);
+        // Create enemies based on current floor and node type
+        const enemyFactory = new EnemyFactory();
+        const currentFloor = this.gameState.player.floor;
+        const nodeType = this.gameState.currentNodeType || 'combat';
+        
+        console.log(`Creating enemies for ${nodeType} encounter on floor ${currentFloor}`);
+        
+        let numEnemies;
+        let enemies = [];
+        
+        if (nodeType === 'boss') {
+            // Boss encounter: 1 strong enemy
+            numEnemies = 1;
+            const boss = enemyFactory.createBossEnemy(currentFloor);
+            enemies.push(boss);
+        } else if (nodeType === 'elite') {
+            // Elite encounter: 1 elite enemy
+            numEnemies = 1;
+            const elite = enemyFactory.createEliteEnemy(currentFloor);
+            enemies.push(elite);
+        } else {
+            // Regular combat: multiple weak enemies
+            if (currentFloor <= 2) {
+                // Early floors: 1-2 weak enemies
+                numEnemies = Math.floor(Math.random() * 2) + 1;
+            } else if (currentFloor <= 4) {
+                // Mid floors: 1-2 enemies
+                numEnemies = Math.floor(Math.random() * 2) + 1;
+            } else {
+                // Later floors: 2-3 enemies
+                numEnemies = Math.floor(Math.random() * 2) + 2;
+            }
+            
+            for (let i = 0; i < numEnemies; i++) {
+                const enemy = enemyFactory.createRandomEnemy(currentFloor);
+                enemies.push(enemy);
+            }
+        }
+        
+        console.log(`Creating ${numEnemies} enemies for ${nodeType} encounter`);
+        
+        enemies.forEach((enemy, i) => {
             enemy.x = i * 120;
             enemy.y = 0;
             this.enemies.push(enemy);
             this.enemyArea.addChild(enemy.container);
-        }
+            console.log(`Created enemy: ${enemy.type} with ${enemy.health} HP and ${enemy.damage} damage`);
+        });
 
         // Start combat in game state
         this.gameState.startCombat(this.enemies);
+        
+        console.log('Hand size after startCombat:', this.gameState.hand.length);
+        console.log('Hand contents:', this.gameState.hand.map(card => card.name));
         
         // Create cards in hand
         this.createCardsInHand();
@@ -324,6 +366,10 @@ export class CombatScene {
     }
 
     createCardsInHand() {
+        console.log('CombatScene.createCardsInHand called');
+        console.log('Hand size:', this.gameState.hand.length);
+        console.log('Hand contents:', this.gameState.hand.map(card => card.name));
+        
         // Clear existing cards
         this.cards.forEach(card => {
             this.handArea.removeChild(card.container);
@@ -332,6 +378,7 @@ export class CombatScene {
 
         // Create new cards
         this.gameState.hand.forEach((cardData, index) => {
+            console.log(`Creating card ${index}: ${cardData.name}`);
             const card = new Card(cardData);
             card.x = (index - this.gameState.hand.length / 2) * 130;
             card.y = 0;
@@ -355,6 +402,8 @@ export class CombatScene {
             this.cards.push(card);
             this.handArea.addChild(card.container);
         });
+        
+        console.log(`Created ${this.cards.length} visual cards`);
     }
 
     selectCard(card, cardIndex) {
@@ -694,6 +743,13 @@ export class CombatScene {
         this.enemies.forEach(enemy => {
             enemy.updateDisplay();
         });
+        
+        // Check for game over
+        if (this.gameState.isGameOver()) {
+            console.log('Game over detected in updateDisplay');
+            this.gameOver();
+            return;
+        }
         
         // Validate game state
         this.validateGameState();

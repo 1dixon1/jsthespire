@@ -78,7 +78,7 @@ export const CARDS = {
         name: 'Iron Wave',
         type: 'attack',
         rarity: 'common',
-        cost: 1,
+        cost: 2,
         damage: 5,
         block: 5,
         description: 'Deal 5 damage. Gain 5 block',
@@ -205,20 +205,176 @@ export const CARDS = {
             cost: 2,
             description: 'Block does not expire at end of turn'
         }
+    },
+    
+    // ADDITIONAL ATTACK CARDS
+    twinStrike: {
+        id: 'twinStrike',
+        name: 'Twin Strike',
+        type: 'attack',
+        rarity: 'common',
+        cost: 1,
+        damage: 5,
+        description: 'Deal 5 damage twice',
+        upgrade: {
+            damage: 7,
+            description: 'Deal 7 damage twice'
+        }
+    },
+    
+    uppercut: {
+        id: 'uppercut',
+        name: 'Uppercut',
+        type: 'attack',
+        rarity: 'uncommon',
+        cost: 2,
+        damage: 13,
+        weak: 1,
+        description: 'Deal 13 damage. Apply 1 Weak',
+        upgrade: {
+            damage: 17,
+            weak: 2,
+            description: 'Deal 17 damage. Apply 2 Weak'
+        }
+    },
+    
+    thunderclap: {
+        id: 'thunderclap',
+        name: 'Thunderclap',
+        type: 'attack',
+        rarity: 'common',
+        cost: 1,
+        damage: 4,
+        aoe: true,
+        vulnerable: 1,
+        description: 'Deal 4 damage to all enemies. Apply 1 Vulnerable',
+        upgrade: {
+            damage: 6,
+            vulnerable: 2,
+            description: 'Deal 6 damage to all enemies. Apply 2 Vulnerable'
+        }
+    },
+    
+    // ADDITIONAL SKILL CARDS
+    battleTrance: {
+        id: 'battleTrance',
+        name: 'Battle Trance',
+        type: 'skill',
+        rarity: 'uncommon',
+        cost: 0,
+        draw: 3,
+        exhaust: true,
+        description: 'Draw 3 cards. Exhaust this card',
+        upgrade: {
+            draw: 4,
+            description: 'Draw 4 cards. Exhaust this card'
+        }
+    },
+    
+    disarm: {
+        id: 'disarm',
+        name: 'Disarm',
+        type: 'skill',
+        rarity: 'uncommon',
+        cost: 1,
+        strength: -2,
+        description: 'Enemy loses 2 strength',
+        upgrade: {
+            strength: -3,
+            description: 'Enemy loses 3 strength'
+        }
+    },
+    
+    flameBarrier: {
+        id: 'flameBarrier',
+        name: 'Flame Barrier',
+        type: 'skill',
+        rarity: 'uncommon',
+        cost: 2,
+        block: 12,
+        thorns: 4,
+        description: 'Gain 12 block. When attacked, deal 4 damage back',
+        upgrade: {
+            block: 16,
+            thorns: 6,
+            description: 'Gain 16 block. When attacked, deal 6 damage back'
+        }
+    },
+    
+    // ADDITIONAL POWER CARDS
+    combust: {
+        id: 'combust',
+        name: 'Combust',
+        type: 'power',
+        rarity: 'uncommon',
+        cost: 1,
+        damage: 5,
+        description: 'At the end of your turn, lose 1 HP and deal 5 damage to ALL enemies',
+        upgrade: {
+            damage: 7,
+            description: 'At the end of your turn, lose 1 HP and deal 7 damage to ALL enemies'
+        }
+    },
+    
+    feelNoPain: {
+        id: 'feelNoPain',
+        name: 'Feel No Pain',
+        type: 'power',
+        rarity: 'uncommon',
+        cost: 1,
+        block: 3,
+        description: 'Whenever you Exhaust a card, gain 3 Block',
+        upgrade: {
+            block: 4,
+            description: 'Whenever you Exhaust a card, gain 4 Block'
+        }
+    },
+    
+    // LEGENDARY CARDS
+    offering: {
+        id: 'offering',
+        name: 'Offering',
+        type: 'skill',
+        rarity: 'legendary',
+        cost: 0,
+        draw: 3,
+        energy: 2,
+        exhaust: true,
+        description: 'Draw 3 cards. Gain 2 Energy. Exhaust this card',
+        upgrade: {
+            draw: 5,
+            energy: 2,
+            description: 'Draw 5 cards. Gain 2 Energy. Exhaust this card'
+        }
+    },
+    
+    corruption: {
+        id: 'corruption',
+        name: 'Corruption',
+        type: 'power',
+        rarity: 'legendary',
+        cost: 3,
+        description: 'Skills cost 0. Whenever you play a Skill, Exhaust it',
+        upgrade: {
+            cost: 2,
+            description: 'Skills cost 0. Whenever you play a Skill, Exhaust it'
+        }
     }
 };
 
 // Cards by type
 export const CARD_TYPES = {
-    attack: ['strike', 'heavyStrike', 'quickStrike', 'cleave', 'ironWave', 'anger', 'whirlwind'],
-    skill: ['defend', 'shrugItOff', 'flex', 'impervious', 'limitBreak'],
-    power: ['demonForm', 'barricade']
+    attack: ['strike', 'heavyStrike', 'quickStrike', 'cleave', 'ironWave', 'anger', 'whirlwind', 'twinStrike', 'uppercut', 'thunderclap'],
+    skill: ['defend', 'shrugItOff', 'flex', 'impervious', 'limitBreak', 'battleTrance', 'disarm', 'flameBarrier'],
+    power: ['demonForm', 'barricade', 'combust', 'feelNoPain']
 };
 
 // Cards by rarity
 export const CARD_RARITY = {
-    common: ['strike', 'heavyStrike', 'quickStrike', 'cleave', 'defend', 'ironWave', 'shrugItOff', 'anger', 'flex'],
-    rare: ['whirlwind', 'impervious', 'limitBreak', 'demonForm', 'barricade']
+    common: ['strike', 'heavyStrike', 'quickStrike', 'cleave', 'defend', 'ironWave', 'shrugItOff', 'anger', 'flex', 'twinStrike', 'thunderclap'],
+    uncommon: ['uppercut', 'battleTrance', 'disarm', 'flameBarrier', 'combust', 'feelNoPain'],
+    rare: ['whirlwind', 'impervious', 'limitBreak', 'demonForm', 'barricade'],
+    legendary: ['offering', 'corruption']
 };
 
 // Starting deck

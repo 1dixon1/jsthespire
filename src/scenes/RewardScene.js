@@ -155,6 +155,13 @@ export class RewardScene {
     }
 
     addSelectedCard() {
+        // Check if player is dead
+        if (this.gameState.isGameOver()) {
+            console.log('Cannot add card: player is dead');
+            this.game.switchScene('mainMenu');
+            return;
+        }
+        
         if (this.selectedCard) {
             const success = this.gameState.addCard(this.selectedCard.cardData.id);
             if (success) {
@@ -232,6 +239,13 @@ export class RewardScene {
     }
 
     returnToMap() {
+        // Check if player is dead
+        if (this.gameState.isGameOver()) {
+            console.log('Cannot return to map: player is dead');
+            this.game.switchScene('mainMenu');
+            return;
+        }
+        
         this.game.switchScene('map');
     }
 
@@ -252,7 +266,7 @@ export class RewardScene {
             graphics.addChild(star);
         }
         
-        return graphics.generateTexture();
+        return this.game.app.renderer.generateTexture(graphics);
     }
 
     cleanup() {

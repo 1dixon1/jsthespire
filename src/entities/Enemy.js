@@ -16,6 +16,18 @@ export class Enemy {
         const sprite = new PIXI.Graphics();
         let color;
         switch (this.type) {
+            // Weak enemies
+            case 'rat':
+                color = 0x8b4513;
+                break;
+            case 'spider':
+                color = 0x2c3e50;
+                break;
+            case 'bat':
+                color = 0x34495e;
+                break;
+            
+            // Medium enemies
             case 'goblin':
                 color = 0x00b894;
                 break;
@@ -25,6 +37,20 @@ export class Enemy {
             case 'skeleton':
                 color = 0xb2bec3;
                 break;
+            
+            // Elite enemies
+            case 'elite_goblin':
+                color = 0xff7675;
+                break;
+            case 'elite_slime':
+                color = 0xfd79a8;
+                break;
+            
+            // Boss enemies
+            case 'boss_dragon':
+                color = 0xe17055;
+                break;
+            
             default:
                 color = 0xe17055;
         }
