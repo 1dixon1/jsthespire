@@ -1,0 +1,27 @@
+<svg width="256" height="256" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#2d3436;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#636e72;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="card" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#fdcb6e;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#e17055;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="256" height="256" fill="url(#bg)" rx="20"/>
+  
+  <!-- Card 1 -->
+  <rect x="60" y="80" width="60" height="80" fill="url(#card)" rx="8" stroke="#fff" stroke-width="2"/>
+  <text x="90" y="120" text-anchor="middle" fill="#fff" font-family="Arial" font-size="12" font-weight="bold">ATK</text>
+  
+  <!-- Card 2 -->
+  <rect x="140" y="100" width="60" height="80" fill="url(#card)" rx="8" stroke="#fff" stroke-width="2"/>
+  <text x="170" y="140" text-anchor="middle" fill="#fff" font-family="Arial" font-size="12" font-weight="bold">DEF</text>
+  
+  <!-- Energy orb -->
+  <circle cx="128" cy="200" r="15" fill="#74b9ff" stroke="#fff" stroke-width="2"/>
+  <text x="128" y="205" text-anchor="middle" fill="#fff" font-family="Arial" font-size="12" font-weight="bold">⚡</text>
+</svg> 

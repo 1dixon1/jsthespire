@@ -1,0 +1,43 @@
+{
+  "name": "js-the-spire-desktop",
+  "version": "1.0.0",
+  "description": "Desktop version of JS The Spire",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dev": "cross-env NODE_ENV=development electron .",
+    "build": "npm run build-web && npm run build-electron",
+    "build-web": "cd .. && npm run build",
+    "build-electron": "electron-builder",
+    "dist": "npm run build"
+  },
+  "devDependencies": {
+    "cross-env": "^10.0.0",
+    "electron": "^37.2.4",
+    "electron-builder": "^26.0.12"
+  },
+  "build": {
+    "appId": "com.jsthespire.game",
+    "productName": "JS The Spire",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "../dist/**/*",
+      "node_modules/**/*"
+    ],
+    "win": {
+      "target": "nsis"
+    },
+    "mac": {
+      "target": "dmg"
+    },
+    "linux": {
+      "target": "AppImage"
+    }
+  },
+  "author": "JS The Spire Team",
+  "license": "MIT"
+}
